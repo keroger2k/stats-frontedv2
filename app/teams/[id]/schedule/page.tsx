@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { teamsApi, Team, Schedule, GameSummary, teamUtils } from "@/lib/stats-api";
-import NavBar from "@/components/NavBar";
+import FullWidthNavBar from "@/components/FullWidthNavBar";
 import TeamHeader from "@/components/TeamHeader";
 import TeamTabNavigation from "@/components/TeamTabNavigation";
 
@@ -83,7 +83,7 @@ export default function TeamSchedulePage() {
 
   if (loading) {
     return (
-      <NavBar>
+      <FullWidthNavBar>
         <div className="mb-6">
           <Link
             href="/teams"
@@ -95,13 +95,13 @@ export default function TeamSchedulePage() {
         <div className="flex items-center justify-center h-64">
           <div className="text-lg text-gray-600">Loading team details...</div>
         </div>
-      </NavBar>
+      </FullWidthNavBar>
     );
   }
 
   if (error || !team) {
     return (
-      <NavBar>
+      <FullWidthNavBar>
         <div className="mb-6">
           <Link
             href="/teams"
@@ -130,7 +130,7 @@ export default function TeamSchedulePage() {
             </div>
           </div>
         </div>
-      </NavBar>
+      </FullWidthNavBar>
     );
   }
 
@@ -313,7 +313,7 @@ export default function TeamSchedulePage() {
   }
 
   return (
-    <NavBar>
+    <FullWidthNavBar>
       {/* Breadcrumb */}
       <div className="mb-6">
         <Link
@@ -442,6 +442,6 @@ export default function TeamSchedulePage() {
           </div>
         )}
       </div>
-    </NavBar>
+    </FullWidthNavBar>
   );
 }

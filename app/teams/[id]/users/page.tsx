@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { teamsApi, Team } from "@/lib/stats-api";
-import NavBar from "@/components/NavBar";
+import FullWidthNavBar from "@/components/FullWidthNavBar";
 import TeamHeader from "@/components/TeamHeader";
 import TeamTabNavigation from "@/components/TeamTabNavigation";
 
@@ -48,7 +48,7 @@ export default function UsersPage() {
 
   if (loading) {
     return (
-      <NavBar>
+      <FullWidthNavBar>
         <div className="mb-6">
           <Link
             href="/teams"
@@ -60,13 +60,13 @@ export default function UsersPage() {
         <div className="flex items-center justify-center h-64">
           <div className="text-lg text-gray-600">Loading team details...</div>
         </div>
-      </NavBar>
+      </FullWidthNavBar>
     );
   }
 
   if (error || !team) {
     return (
-      <NavBar>
+      <FullWidthNavBar>
         <div className="mb-6">
           <Link
             href="/teams"
@@ -95,12 +95,12 @@ export default function UsersPage() {
             </div>
           </div>
         </div>
-      </NavBar>
+      </FullWidthNavBar>
     );
   }
 
   return (
-    <NavBar>
+    <FullWidthNavBar>
       {/* Breadcrumb */}
       <div className="mb-6">
         <Link
@@ -156,6 +156,6 @@ export default function UsersPage() {
           </div>
         </div>
       </div>
-    </NavBar>
+    </FullWidthNavBar>
   );
 }
