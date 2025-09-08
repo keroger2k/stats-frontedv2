@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { authClient } from "@/lib/auth-client";
 
@@ -31,8 +32,14 @@ export default function DashboardPage() {
       <nav className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold">Dashboard</h1>
+            <div className="flex items-center space-x-8">
+              <Link href="/dashboard" className="text-xl font-semibold text-gray-900">Dashboard</Link>
+              <Link 
+                href="/teams" 
+                className="text-base font-medium text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Teams
+              </Link>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">
