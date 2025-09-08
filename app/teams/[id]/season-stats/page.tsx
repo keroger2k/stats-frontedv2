@@ -591,54 +591,74 @@ export default function SeasonStatsPage() {
           </div>
         </div>
 
-        {/* Stats Navigation - Two Tier System */}
+        {/* Stats Navigation - Single Row System */}
         <div className="px-6 py-2">
-          {/* Tier 1: Category Selection */}
-          <nav className="flex space-x-1 mb-4">
-            {[
-              { id: 'batting', label: 'Batting' },
-              { id: 'pitching', label: 'Pitching' },
-              { id: 'fielding', label: 'Fielding' },
-            ].map((category) => (
-              <button
-                key={category.id}
-                onClick={() => {
-                  setActiveCategory(category.id as 'batting' | 'pitching' | 'fielding');
-                  // Reset to standard when switching categories, except for fielding which defaults to standard
-                  if (category.id !== 'fielding') {
+          <nav className="flex items-center space-x-8">
+            {/* Category Selection */}
+            <div className="flex space-x-1">
+              {[
+                { id: 'batting', label: 'Batting' },
+                { id: 'pitching', label: 'Pitching' },
+                { id: 'fielding', label: 'Fielding' },
+              ].map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    setActiveCategory(category.id as 'batting' | 'pitching' | 'fielding');
+                    // Reset to standard when switching categories
                     setActiveType('standard');
-                  }
-                }}
-                className={`py-2 px-4 text-sm font-medium rounded-full transition-colors ${
-                  activeCategory === category.id
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
-          </nav>
+                  }}
+                  className={`py-2 px-4 text-sm font-medium rounded-full transition-colors ${
+                    activeCategory === category.id
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                  }`}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
 
-          {/* Tier 2: Type Selection */}
-          <nav className="flex space-x-6">
-            {[
-              { id: 'standard', label: 'Standard' },
-              { id: 'advanced', label: 'Advanced' },
-              ...(activeCategory === 'fielding' ? [{ id: 'catching', label: 'Catching' }] : []),
-            ].map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setActiveType(type.id as 'standard' | 'advanced' | 'catching')}
-                className={`py-2 px-1 text-sm font-medium transition-colors border-b-2 ${
-                  activeType === type.id
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {type.label}
-              </button>
-            ))}
+            {/* Type Selection */}
+            <div className="flex space-x-6">
+              {activeCategory === 'fielding' ? (
+                // Fielding only shows Standard and Catching
+                [
+                  { id: 'standard', label: 'Standard' },
+                  { id: 'catching', label: 'Catching' },
+                ].map((type) => (
+                  <button
+                    key={type.id}
+                    onClick={() => setActiveType(type.id as 'standard' | 'catching')}
+                    className={`py-2 px-1 text-sm font-medium transition-colors border-b-2 ${
+                      activeType === type.id
+                        ? 'text-blue-600 border-blue-600'
+                        : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    {type.label}
+                  </button>
+                ))
+              ) : (
+                // Batting and Pitching show Standard and Advanced
+                [
+                  { id: 'standard', label: 'Standard' },
+                  { id: 'advanced', label: 'Advanced' },
+                ].map((type) => (
+                  <button
+                    key={type.id}
+                    onClick={() => setActiveType(type.id as 'standard' | 'advanced')}
+                    className={`py-2 px-1 text-sm font-medium transition-colors border-b-2 ${
+                      activeType === type.id
+                        ? 'text-blue-600 border-blue-600'
+                        : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    {type.label}
+                  </button>
+                ))
+              )}
+            </div>
           </nav>
         </div>
       </div>
