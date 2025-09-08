@@ -35,9 +35,87 @@ export interface Team {
 
 export interface TeamPlayer {
   id: string;
-  name: string;
-  position?: string;
-  jersey_number?: number;
+  first_name: string;
+  last_name: string;
+  number?: string;
+  status?: string;
+  team_id?: string;
+  user_id?: string;
+  meta_seq?: number;
+  created_at?: string;
+  updated_at?: string;
+  bats?: {
+    player_id: string;
+    batting_side?: string;
+    throwing_hand?: string;
+    meta_seq?: number | null;
+    created_at?: string;
+    updated_at?: string;
+  };
+  person_id?: string;
+}
+
+export interface PlayerOffenseStats {
+  h?: number;        // hits
+  r?: number;        // runs
+  "1B"?: number;     // singles
+  "2B"?: number;     // doubles
+  "3B"?: number;     // triples
+  ab?: number;       // at bats
+  bb?: number;       // walks
+  gp?: number;       // games played
+  hr?: number;       // home runs
+  pa?: number;       // plate appearances
+  so?: number;       // strikeouts
+  avg?: number;      // batting average
+  obp?: number;      // on-base percentage
+  ops?: number;      // on-base plus slugging
+  slg?: number;      // slugging percentage
+  rbi?: number;      // runs batted in
+  sb?: number;       // stolen bases
+  cs?: number;       // caught stealing
+  hbp?: number;      // hit by pitch
+  shf?: number;      // sacrifice flies
+  shb?: number;      // sacrifice bunts
+  fc?: number;       // fielder's choice
+  roe?: number;      // reached on error
+  "K-L"?: number;    // strikeouts looking
+  xbh?: number;      // extra base hits
+  [key: string]: any;
+}
+
+export interface PlayerDefenseStats {
+  a?: number;        // assists
+  e?: number;        // errors
+  po?: number;       // putouts
+  tc?: number;       // total chances
+  fpct?: number;     // fielding percentage
+  dp?: number;       // double plays
+  [key: string]: any;
+}
+
+export interface PlayerGeneralStats {
+  gp?: number;       // games played
+  [key: string]: any;
+}
+
+export interface PlayerSeasonStats {
+  stats: {
+    offense?: PlayerOffenseStats;
+    defense?: PlayerDefenseStats | null;
+    general?: PlayerGeneralStats;
+  };
+}
+
+export interface SeasonStatsResponse {
+  id?: string;
+  team_id?: string;
+  stats_data?: {
+    stats?: any;
+    players?: {
+      [player_id: string]: PlayerSeasonStats;
+    };
+  };
 }
 
 export interface Schedule {
@@ -64,12 +142,27 @@ export interface Schedule {
   };
 }
 
+type GameStates =
+  | "1st Half"
+  | "2nd Half"
+  | "1st Quarter"
+  | "2nd Quarter"
+  | "3rd Quarter"
+  | "4th Quarter"
+  | "1st Period"
+  | "2nd Period"
+  | "3rd Period"
+  | "Halftime"
+  | "Overtime 1"
+  | "Overtime 2"
+  | "Game Over";
+
 export interface GameSummary {
-  id: string;
-  home_team_score: number;
-  away_team_score: number;
-  inning?: number;
-  status: string;
+  event_id?: string; 
+  owning_team_score?: number;
+  opponent_team_score?: number;
+  home_away?: string;
+  game_status: GameStates;
 }
 
 // API Error Types
@@ -159,8 +252,8 @@ export const teamsApi = {
   },
 
   // Get team season stats
-  getSeasonStats: async (id: string): Promise<any> => {
-    return apiRequest<any>(`/api/Teams/${id}/season-stats`);
+  getSeasonStats: async (id: string): Promise<SeasonStatsResponse> => {
+    return apiRequest<SeasonStatsResponse>(`/api/Teams/${id}/season-stats`);
   },
 
   // Get team spray charts
